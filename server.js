@@ -1,10 +1,14 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const articleRouter = require("./Routes/article");
 const app = express();
+mongoose.connect("mongodb://localhost/blog_webiste");
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/articles", articleRouter);
+
 app.get("/", (req, res) => {
   const Articles = [
     {
@@ -28,7 +32,7 @@ app.get("/", (req, res) => {
       description: "test description",
     },
   ];
-  res.render("index", { articles: Articles });
+  res.render("articles/index", { articles: Articles });
 });
 app.listen(3000, () => {
   console.log("server is running");
